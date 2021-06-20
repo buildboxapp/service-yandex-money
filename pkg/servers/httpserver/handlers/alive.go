@@ -14,7 +14,7 @@ import (
 // @Router /alive [get]
 func (h *handlers) Alive(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	curVersion := fmt.Sprintf("<p>HTTP OK. v%s</p>", h.cfg.AppVersionPointvalue)
+	curVersion := fmt.Sprintf("<p>HTTP OK. v%s</p>", h.cfg)
 	curConfig, _ := json.Marshal(h.cfg)
 
 	result := fmt.Sprintf("<html><body>Version: %s/n/nConfig: /n%s</body></html>", curVersion, curConfig)

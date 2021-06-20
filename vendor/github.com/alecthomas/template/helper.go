@@ -33,7 +33,7 @@ func ParseFiles(filenames ...string) (*Template, error) {
 	return parseFiles(nil, filenames...)
 }
 
-// ParseFiles parses the named files and aservice-yandex-moneyciates the resulting templates with
+// ParseFiles parses the named files and associates the resulting templates with
 // t. If an error occurs, parsing stops and the returned template is nil;
 // otherwise it is t. There must be at least one file.
 func (t *Template) ParseFiles(filenames ...string) (*Template, error) {
@@ -55,11 +55,11 @@ func parseFiles(t *Template, filenames ...string) (*Template, error) {
 		s := string(b)
 		name := filepath.Base(filename)
 		// First template becomes return value if not already defined,
-		// and we use that one for subsequent New calls to aservice-yandex-moneyciate
+		// and we use that one for subsequent New calls to associate
 		// all the templates together. Also, if this file has the same name
 		// as t, this file becomes the contents of t, so
 		//  t, err := New(name).Funcs(xxx).ParseFiles(name)
-		// works. Otherwise we create a new template aservice-yandex-moneyciated with t.
+		// works. Otherwise we create a new template associated with t.
 		var tmpl *Template
 		if t == nil {
 			t = New(name)
@@ -87,7 +87,7 @@ func ParseGlob(pattern string) (*Template, error) {
 }
 
 // ParseGlob parses the template definitions in the files identified by the
-// pattern and aservice-yandex-moneyciates the resulting templates with t. The pattern is
+// pattern and associates the resulting templates with t. The pattern is
 // processed by filepath.Glob and must match at least one file. ParseGlob is
 // equivalent to calling t.ParseFiles with the list of files matched by the
 // pattern.

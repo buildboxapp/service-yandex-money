@@ -341,7 +341,7 @@ func (h *Handler) handleCopyMove(w http.ResponseWriter, r *http.Request) (status
 		return http.StatusBadGateway, errInvalidDestination
 	}
 	if dst == src {
-		return http.StatusForbidden, errDestinationEqualservice-yandex-moneyurce
+		return http.StatusForbidden, errDestinationEqualsSource
 	}
 
 	ctx := r.Context()
@@ -685,7 +685,7 @@ func StatusText(code int) string {
 }
 
 var (
-	errDestinationEqualservice-yandex-moneyurce = errors.New("webdav: destination equals source")
+	errDestinationEqualsSource = errors.New("webdav: destination equals source")
 	errDirectoryNotEmpty       = errors.New("webdav: directory not empty")
 	errInvalidDepth            = errors.New("webdav: invalid depth")
 	errInvalidDestination      = errors.New("webdav: invalid destination")

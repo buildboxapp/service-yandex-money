@@ -2,16 +2,16 @@
 package servers
 
 import (
-	"github.com/buildboxapp/service-yandex-money/pkg/config"
-	"github.com/buildboxapp/service-yandex-money/pkg/servers/httpserver"
-	"github.com/buildboxapp/service-yandex-money/pkg/service"
+	"github.com/buildboxapp/yookassa/pkg/model"
+	"github.com/buildboxapp/yookassa/pkg/servers/httpserver"
+	"github.com/buildboxapp/yookassa/pkg/service"
 	bbmetric "github.com/buildboxapp/lib/metric"
 	"strings"
 )
 
 type servers struct {
 	mode string
-	cfg config.Config
+	cfg model.Config
 	metrics bbmetric.ServiceMetric
 	httpserver httpserver.Server
 	service service.Service
@@ -30,10 +30,10 @@ func (s *servers) Run() {
 
 func New(
 	mode string,
-	cfg config.Config,
+	cfg model.Config,
 	metrics bbmetric.ServiceMetric,
 	httpserver httpserver.Server,
-service service.Service,
+	service service.Service,
 ) Servers {
 	return &servers{
 		mode,

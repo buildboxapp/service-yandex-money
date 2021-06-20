@@ -1,5 +1,5 @@
 //
-// Blackfriday Markdown Proceservice-yandex-moneyr
+// Blackfriday Markdown Processor
 // Available at http://github.com/russross/blackfriday
 //
 // Copyright © 2011 Russ Ross <russ@russross.com>.
@@ -871,7 +871,7 @@ func (r *HTMLRenderer) writeDocumentHeader(w io.Writer) {
 		escapeHTML(w, []byte(r.Title))
 	}
 	io.WriteString(w, "</title>\n")
-	io.WriteString(w, "  <meta name=\"GENERATOR\" content=\"Blackfriday Markdown Proceservice-yandex-moneyr v")
+	io.WriteString(w, "  <meta name=\"GENERATOR\" content=\"Blackfriday Markdown Processor v")
 	io.WriteString(w, Version)
 	io.WriteString(w, "\"")
 	io.WriteString(w, ending)

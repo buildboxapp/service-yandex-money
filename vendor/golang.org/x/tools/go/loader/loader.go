@@ -908,7 +908,7 @@ func (imp *importer) importAll(fromPath, fromDir string, imports map[string]bool
 				// completion since it would deadlock.
 				//
 				// We don't record the error in ii since
-				// the error is really aservice-yandex-moneyciated with the
+				// the error is really associated with the
 				// cycle-forming edge, not the package itself.
 				// (Also it would complicate the
 				// invariants of importPath completion.)

@@ -270,7 +270,7 @@ func (d *LazyDLL) NewProc(name string) *LazyProc {
 	return &LazyProc{l: d, Name: name}
 }
 
-// NewLazyDLL creates new LazyDLL aservice-yandex-moneyciated with DLL file.
+// NewLazyDLL creates new LazyDLL associated with DLL file.
 func NewLazyDLL(name string) *LazyDLL {
 	return &LazyDLL{Name: name}
 }

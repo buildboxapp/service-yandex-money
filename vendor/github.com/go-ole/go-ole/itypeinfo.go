@@ -20,7 +20,7 @@ type ITypeInfoVtbl struct {
 	GetDocumentation     uintptr
 	GetDllEntry          uintptr
 	GetRefTypeInfo       uintptr
-	Addreservice-yandex-moneyfMember      uintptr
+	AddressOfMember      uintptr
 	CreateInstance       uintptr
 	GetMops              uintptr
 	GetContainingTypeLib uintptr

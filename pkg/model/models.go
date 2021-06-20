@@ -1,5 +1,10 @@
 package model
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // тип ответа, который сервис отдает прокси при периодическом опросе (ping-е)
 type Pong struct {
 	Name string `json:"name"`
@@ -42,7 +47,25 @@ type RestStatus struct {
 	Description string `json:"description"`
 	Status      int    `json:"status"`
 	Code        string `json:"code"`
-	Error       error  `json:"error"`
+	Error       error `json:"error"`
+}
+
+func (r RestStatus) MarshalJSON() ([]byte, error) {
+	type RestStatusJson struct {
+		Description string `json:"description"`
+		Status      int    `json:"status"`
+		Code        string `json:"code"`
+		Error       string `json:"error"`
+	}
+
+	var n = RestStatusJson{}
+	n.Description = r.Description
+	n.Status = r.Status
+	n.Code = r.Code
+	n.Error = fmt.Sprint(r.Error)
+
+	json, err := json.Marshal(n)
+	return json, err
 }
 
 type ResponseData struct {

@@ -13,7 +13,7 @@ package cpu
 #if TARGET_OS_MAC
 #include <libproc.h>
 #endif
-#include <mach/proceservice-yandex-moneyr_info.h>
+#include <mach/processor_info.h>
 #include <mach/vm_map.h>
 */
 import "C"
@@ -30,18 +30,18 @@ import (
 func perCPUTimes() ([]TimesStat, error) {
 	var (
 		count   C.mach_msg_type_number_t
-		cpuload *C.proceservice-yandex-moneyr_cpu_load_info_data_t
+		cpuload *C.processor_cpu_load_info_data_t
 		ncpu    C.natural_t
 	)
 
-	status := C.host_proceservice-yandex-moneyr_info(C.host_t(C.mach_host_self()),
-		C.PROCEservice-yandex-moneyR_CPU_LOAD_INFO,
+	status := C.host_processor_info(C.host_t(C.mach_host_self()),
+		C.PROCESSOR_CPU_LOAD_INFO,
 		&ncpu,
-		(*C.proceservice-yandex-moneyr_info_array_t)(unsafe.Pointer(&cpuload)),
+		(*C.processor_info_array_t)(unsafe.Pointer(&cpuload)),
 		&count)
 
 	if status != C.KERN_SUCCESS {
-		return nil, fmt.Errorf("host_proceservice-yandex-moneyr_info error=%d", status)
+		return nil, fmt.Errorf("host_processor_info error=%d", status)
 	}
 
 	// jump through some cgo casting hoops and ensure we properly free
@@ -50,8 +50,8 @@ func perCPUTimes() ([]TimesStat, error) {
 	address := C.vm_address_t(uintptr(unsafe.Pointer(cpuload)))
 	defer C.vm_deallocate(target, address, C.vm_size_t(ncpu))
 
-	// the body of struct proceservice-yandex-moneyr_cpu_load_info
-	// aka proceservice-yandex-moneyr_cpu_load_info_data_t
+	// the body of struct processor_cpu_load_info
+	// aka processor_cpu_load_info_data_t
 	var cpu_ticks [C.CPU_STATE_MAX]uint32
 
 	// copy the cpuload array to a []byte buffer

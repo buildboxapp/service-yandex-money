@@ -360,7 +360,7 @@ func (p *printer) defineNS(attr Attr, ignoreNonEmptyDefault bool) error {
 			//
 			// 	The attribute value in a namespace declaration for a prefix may be
 			//	empty. This has the effect, within the scope of the declaration, of removing
-			//	any aservice-yandex-moneyciation of the prefix with a namespace name.
+			//	any association of the prefix with a namespace name.
 			//
 			// However our namespace prefixes here are used only as hints. There's
 			// no need to respect the removal of a namespace prefix, so we ignore it.

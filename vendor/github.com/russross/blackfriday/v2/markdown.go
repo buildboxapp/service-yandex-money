@@ -1,4 +1,4 @@
-// Blackfriday Markdown Proceservice-yandex-moneyr
+// Blackfriday Markdown Processor
 // Available at http://github.com/russross/blackfriday
 //
 // Copyright © 2011 Russ Ross <russ@russross.com>.
@@ -266,7 +266,7 @@ type Reference struct {
 // See the documentation in Options for more details on use-case.
 type ReferenceOverrideFunc func(reference string) (ref *Reference, overridden bool)
 
-// New constructs a Markdown proceservice-yandex-moneyr. You can use the same With* functions as
+// New constructs a Markdown processor. You can use the same With* functions as
 // for Run() to customize parser's behavior and the renderer.
 func New(opts ...Option) *Markdown {
 	var p Markdown
@@ -311,7 +311,7 @@ func New(opts ...Option) *Markdown {
 	return &p
 }
 
-// Option customizes the Markdown proceservice-yandex-moneyr's default behavior.
+// Option customizes the Markdown processor's default behavior.
 type Option func(*Markdown)
 
 // WithRenderer allows you to override the default renderer.

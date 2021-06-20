@@ -15,6 +15,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 // если status не из списка, то вставляем статус - 501 и Descraption из статуса
@@ -64,8 +65,8 @@ func ResponseJSON(w http.ResponseWriter, objResponse interface{}, status string,
 }
 
 // стартуем сервис из конфига
-func RunProcess(path, config, command string) (pid int, err error) {
-
+func RunProcess(path, config, command, mode string) (pid int, err error) {
+	var cmd *exec.Cmd
 	if config == "" {
 		return 0, fmt.Errorf("%s", "Configuration file is not found")
 	}
@@ -73,13 +74,23 @@ func RunProcess(path, config, command string) (pid int, err error) {
 		command = "start"
 	}
 
-	cmd := exec.Command(path, command, "--config", config)
-	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
+	fmt.Println(config, mode)
 
-	//stdout, err := cmd.StdoutPipe()
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
+	cmd = exec.Command(path, command, "--config", config, "--mode", mode)
+	if mode == "debug" {
+		t := time.Now().Format("2006.01.02-15-04-05")
+		s := strings.Split(path, sep)
+		srv := s[len(s)-1]
+		CreateDir("debug" + sep + srv, 0777)
+		config_name := strings.Replace(config, "-", "", -1)
+
+		f, _ := os.Create(  "debug" + sep + srv + sep + config_name + "_" + fmt.Sprint(t) + ".log")
+
+		cmd.Stdout = f
+		cmd.Stderr = f
+	}
+
+	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
 	err = cmd.Start()
 	if err != nil {
 		return 0, err
@@ -89,131 +100,41 @@ func RunProcess(path, config, command string) (pid int, err error) {
 	return
 }
 
-// останавливаем сервис по порту
-//func StopProcess(workdir, fileConfig, message string) {
-//
-//	if fileConfig == "" {
-//		fmt.Println(color.Red("ERROR!") + " Configuration file is not found.\n")
-//		return
-//	}
-//
-//	var err error
-//	done := color.Yellow("OK")
-//	fail := color.Red("FAIL")
-//	fileStart := workdir + "/buildbox"
-//
-//	cmd := exec.Command(fileStart, "stop", "--config", fileConfig)
-//	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
-//	err = cmd.Start()
-//	if err != nil {
-//		fmt.Printf("%s Exist %s: %s\n", message, fail, err)
-//		return
-//	}
-//
-//	fmt.Printf("%s Exist %s: %s\n", done, message, cmd.Process.Pid)
-//	return
-//}
-
-//////////////////////////////////////////////////////////////////
-////////////////////////// СЕРВИСНЫЕ ФУНКЦИИ /////////////////////
-//////////////////////////////////////////////////////////////////
-
 // читаем файл конфигурации и возвращаем
 // объект конфига, джейсон-конфига и ошибку
+// ЗАГЛУШКА ДЛЯ PS и LS
 func ReadConf(configfile string) (conf map[string]string, confjson string, err error) {
-
-	if configfile == "" {
-		return nil, "", err
-	}
-
-	// дополняем название файла раcширением
-	if !strings.Contains(configfile, ".json") {
-		configfile += ".json"
-	}
-
-	rootDir, err := RootDir()
-	if err != nil {
-		return
-	}
-	startDir := rootDir + string(filepath.Separator) + "upload"
-	fileName, err := ReadConfAction(startDir, configfile, false)
-	if err != nil {
-		return nil, "", err
-	}
-
-	confJson, err := ReadFile(fileName)
-	if err != nil {
-		return nil, "", err
-	}
-
-	err = json.Unmarshal([]byte(confJson), &conf)
-	if err != nil {
-		return nil, "", err
-	}
-
-	return conf, confJson, err
-}
-
-// получаем путь от переданной директории
-// если defConfig = true - значит ищем конфигурацию по-умолчанию
-func ReadConfAction(currentDir, configuration string, defConfig bool) (configPath string, err error) {
-	var conf map[string]string
-	directory, _ := os.Open(currentDir)
-	objects, err := directory.Readdir(-1)
-	if err != nil {
-		return "", err
-	}
-
-	// пробегаем текущую папку и считаем совпадание признаков
-	for _, obj := range objects {
-		nextPath := currentDir + string(filepath.Separator) + obj.Name()
-		if obj.IsDir() {
-			configPath, err = ReadConfAction(nextPath+string(filepath.Separator)+"ini", configuration, defConfig)
-			if configPath != "" {
-				return configPath, err // поднимает результат наверх
-			}
-
-		} else {
-			if defConfig { // проверяем на получение конфигурации по-умолчанию
-				confJson, err := ReadFile(nextPath)
-				err = json.Unmarshal([]byte(confJson), &conf)
-				if err == nil {
-					d := conf["default"]
-					if d == "checked" {
-						return obj.Name(), err
-					}
-				}
-			} else {
-				if obj.Name() == configuration {
-					return nextPath, err
-				}
-			}
-		}
-	}
-
-	return configPath, err
-}
-
-// получаем конфигурацию по-умолчанию для сервера (перебираем конфиги и ищем первый у которого default=on)
-func DefaultConfig() (fileConfig string, err error) {
-	rootDir, err := RootDir()
-	if err != nil {
-		return
-	}
-	startDir := rootDir + string(filepath.Separator) + "upload"
-
-	return ReadConfAction(startDir, "", true)
-}
-
-// определяем текущий каталог для первого запуска, чтобы прочитать файл с конфигурацией
-func CurrentDir() (result string, err error) {
-	// путь к шаблонам при запуске через командную строку
-	runDir, err := os.Getwd()
-	var currentDir = filepath.Dir(os.Args[0]) // если запускать с goland отдает темповую папку (заменяем)
-	if currentDir != runDir {
-		currentDir = runDir
-	}
-	return
+	//
+	//	if configfile == "" {
+	//		return nil, "", err
+	//	}
+	//
+	//	// дополняем название файла раcширением
+	//	if !strings.Contains(configfile, ".json") {
+	//		configfile += ".json"
+	//	}
+	//
+	//	rootDir, err := RootDir()
+	//	if err != nil {
+	//		return
+	//	}
+	//	startDir := rootDir + string(filepath.Separator) + "upload"
+	//	fileName, err := ReadConfAction(startDir, configfile, false)
+	//	if err != nil {
+	//		return nil, "", err
+	//	}
+	//
+	//	confJson, err := ReadFile(fileName)
+	//	if err != nil {
+	//		return nil, "", err
+	//	}
+	//
+	//	err = json.Unmarshal([]byte(confJson), &conf)
+	//	if err != nil {
+	//		return nil, "", err
+	//	}
+	//
+	return conf, confjson, err
 }
 
 // корневую директорию (проверяем признаки в текущей директории + шагом вверх)

@@ -170,8 +170,8 @@ func VirtualizationWithContext(ctx context.Context) (string, string, error) {
 		contents, err := ReadLines(filename)
 		if err == nil {
 			if StringsContains(contents, "QEMU Virtual CPU") ||
-				StringsContains(contents, "Common KVM proceservice-yandex-moneyr") ||
-				StringsContains(contents, "Common 32-bit KVM proceservice-yandex-moneyr") {
+				StringsContains(contents, "Common KVM processor") ||
+				StringsContains(contents, "Common 32-bit KVM processor") {
 				system = "kvm"
 				role = "guest"
 			}

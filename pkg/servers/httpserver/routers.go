@@ -1,7 +1,7 @@
 package httpserver
 
 import (
-	"github.com/buildboxapp/service-yandex-money/pkg/servers/httpserver/handlers"
+	"github.com/buildboxapp/yookassa/pkg/servers/httpserver/handlers"
 	"github.com/gorilla/mux"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"net/http"
@@ -24,7 +24,7 @@ type Routes []Route
 
 func (h *httpserver) NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-	handler := handlers.New(h.src, h.logger, h.cfg, h.jwt)
+	handler := handlers.New(h.src, h.logger, h.cfg, &h.ctx)
 
 	router.HandleFunc("/alive", handler.Alive).Methods("GET")
 	router.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
@@ -37,13 +37,13 @@ func (h *httpserver) NewRouter() *mux.Router {
 	//api
 	//apiRouter := rt.PathPrefix("/gui/v1").Subrouter()
 	router.Use(h.JsonHeaders)
+	router.Use(h.AuthProcessor)
 
 	var routes = Routes{
-
 		// запросы (настроенные)
 		Route{"Ping", "GET", "/ping",  handler.Ping},
 		Route{"Pay", "GET", "/pay", handler.Pay},
-		Route{"Confirmation", "GET", "/confirmation", handler.Confirmation},
+		Route{"Confirmation", "POST", "/confirmation", handler.Confirmation},
 
 		// Регистрация pprof-обработчиков
 		Route{"pprofIndex", "GET", "/debug/pprof/", pprof.Index},
@@ -51,8 +51,6 @@ func (h *httpserver) NewRouter() *mux.Router {
 		Route{"pprofIndex", "GET", "/debug/pprof/profile", pprof.Profile},
 		Route{"pprofIndex", "GET", "/debug/pprof/symbol", pprof.Symbol},
 		Route{"pprofIndex", "GET", "/debug/pprof/trace", pprof.Trace},
-
-
 	}
 
 	for _, route := range routes {

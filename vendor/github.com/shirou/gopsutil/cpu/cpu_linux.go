@@ -118,7 +118,7 @@ func InfoWithContext(ctx context.Context) ([]InfoStat, error) {
 	lines, _ := common.ReadLines(filename)
 
 	var ret []InfoStat
-	var proceservice-yandex-moneyrName string
+	var processorName string
 
 	c := InfoStat{CPU: -1, Cores: 1}
 	for _, line := range lines {
@@ -130,9 +130,9 @@ func InfoWithContext(ctx context.Context) ([]InfoStat, error) {
 		value := strings.TrimSpace(fields[1])
 
 		switch key {
-		case "Proceservice-yandex-moneyr":
-			proceservice-yandex-moneyrName = value
-		case "proceservice-yandex-moneyr":
+		case "Processor":
+			processorName = value
+		case "processor":
 			if c.CPU >= 0 {
 				err := finishCPUInfo(&c)
 				if err != nil {
@@ -140,7 +140,7 @@ func InfoWithContext(ctx context.Context) ([]InfoStat, error) {
 				}
 				ret = append(ret, c)
 			}
-			c = InfoStat{Cores: 1, ModelName: proceservice-yandex-moneyrName}
+			c = InfoStat{Cores: 1, ModelName: processorName}
 			t, err := strconv.ParseInt(value, 10, 64)
 			if err != nil {
 				return ret, err
@@ -293,7 +293,7 @@ func CountsWithContext(ctx context.Context, logical bool) (int, error) {
 		if err == nil {
 			for _, line := range lines {
 				line = strings.ToLower(line)
-				if strings.HasPrefix(line, "proceservice-yandex-moneyr") {
+				if strings.HasPrefix(line, "processor") {
 					ret++
 				}
 			}

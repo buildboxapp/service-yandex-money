@@ -59,9 +59,7 @@ func (u *utils) Curl(method, urlc, bodyJSON string, response interface{}, header
 	values := url.Values{}
 	actionType := ""
 
-	//fmt.Println("lib/http.go; (c *Lib) Curl; urlc " , urlc, "")
-	//fmt.Println("u.State", u.State)
-	//u.Logger.Info("lib/http.go; (c *Lib) Curl; urlc " , urlc, "; bodyJSON: ", bodyJSON, "; method: ", method)
+	//fmt.Println(urlc)
 
 	// если в гете мы передали еще и json (его добавляем в строку запроса)
 	// только если в запросе не указаны передаваемые параметры

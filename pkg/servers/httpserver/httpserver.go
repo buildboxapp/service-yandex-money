@@ -3,28 +3,26 @@ package httpserver
 import (
 	"context"
 	"fmt"
-	"github.com/buildboxapp/service-yandex-money/pkg/jwt"
-	"github.com/buildboxapp/service-yandex-money/pkg/service"
 	"github.com/buildboxapp/lib/log"
 	bbmetric "github.com/buildboxapp/lib/metric"
+	"github.com/buildboxapp/yookassa/pkg/model"
+	"github.com/buildboxapp/yookassa/pkg/service"
 	"github.com/labstack/gommon/color"
 	"net/http"
 
 	"github.com/pkg/errors"
 
 	// should be so!
-	_ "github.com/buildboxapp/service-yandex-money/pkg/servers/docs"
+	_ "github.com/buildboxapp/yookassa/pkg/servers/docs"
 
-	"github.com/buildboxapp/service-yandex-money/pkg/config"
 )
 
 type httpserver struct {
 	ctx context.Context
-	cfg config.Config
+	cfg model.Config
 	src service.Service
 	metric bbmetric.ServiceMetric
 	logger log.Log
-	jwt jwt.Jwt
 }
 
 type Server interface {
@@ -59,11 +57,10 @@ func (h *httpserver) Run() error {
 
 func New(
 	ctx context.Context,
-	cfg config.Config,
+	cfg model.Config,
 	src service.Service,
 	metric bbmetric.ServiceMetric,
 	logger log.Log,
-	jwt jwt.Jwt,
 ) Server {
 	return &httpserver{
 		ctx,
@@ -71,6 +68,5 @@ func New(
 		src,
 		metric,
 		logger,
-		jwt,
 	}
 }

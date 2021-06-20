@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/buildboxapp/service-yandex-money/pkg/model"
+	"github.com/buildboxapp/yookassa/pkg/model"
 	"time"
 )
 
@@ -25,12 +25,14 @@ func (p *api) AttrUpdate(uid, name, value, src, editor string) (err error) {
 	dataJ, _ := json.Marshal(post)
 
 	var objData model.Response
-	p.utl.Curl("POST", "_element/update", string(dataJ), &objData, map[string]string{})
+	_, err = p.utl.Curl("POST", p.cfg.Custom[0].ApiUrl+"/element/update?format=json", string(dataJ), &objData, map[string]string{})
+	if err != nil {
+		return
+	}
 
 	var dataObjs model.ResponseData
 	b1, _ := json.Marshal(objData)
 	json.Unmarshal(b1, &dataObjs)
-
 
 	/////////////////   ОБРАБОТКА ТРИГГЕРА НА ИЗМЕНИЕ ОБЪЕКТА (ПОСТ)   /////////////////
 	//go TriggerRun(dataObjs.Data, nil, "get", "after", "")
@@ -43,7 +45,11 @@ func (p *api) AttrUpdate(uid, name, value, src, editor string) (err error) {
 
 func (p *api) CreateObjForm(data map[string]string) (res model.ResponseData, err error) {
 	dataJ, _ := json.Marshal(data)
-	p.utl.Curl("POST", "/objs", string(dataJ), &res, map[string]string{})
+	_, err = p.utl.Curl("POST", p.cfg.Custom[0].ApiUrl+"/objs?format=json", string(dataJ), &res, map[string]string{})
 
-	return
+	if len(res.Data) == 0 {
+		err = fmt.Errorf("%s", res.Status.Description)
+	}
+
+	return res, err
 }

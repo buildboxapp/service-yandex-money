@@ -6,7 +6,7 @@
 //
 // DESIGN
 //
-// The approach taken is to run the cgo proceservice-yandex-moneyr on the package's
+// The approach taken is to run the cgo processor on the package's
 // CgoFiles and parse the output, faking the filenames of the
 // resulting ASTs so that the synthetic file containing the C types is
 // called "C" (e.g. "~/go/src/net/C") and the preprocessed files
@@ -19,7 +19,7 @@
 // should still be correct because of the //line comments.
 //
 // The logic of this file is mostly plundered from the 'go build'
-// tool, which also invokes the cgo preproceservice-yandex-moneyr.
+// tool, which also invokes the cgo preprocessor.
 //
 //
 // REJECTED ALTERNATIVE
@@ -43,7 +43,7 @@
 // files per the specification since they may refer to unexported
 // members of package "C" such as C.int.  Also, a function such as
 // C.getpwent has in effect two types, one matching its C type and one
-// which additionally returns (errno C.int).  The cgo preproceservice-yandex-moneyr
+// which additionally returns (errno C.int).  The cgo preprocessor
 // uses name mangling to distinguish these two functions in the
 // processed code, but go/types would need to duplicate this logic in
 // its handling of function calls, analogous to the treatment of map
@@ -66,7 +66,7 @@ import (
 	"strings"
 )
 
-// ProcessFiles invokes the cgo preproceservice-yandex-moneyr on bp.CgoFiles, parses
+// ProcessFiles invokes the cgo preprocessor on bp.CgoFiles, parses
 // the output and returns the resulting ASTs.
 //
 func ProcessFiles(bp *build.Package, fset *token.FileSet, DisplayPath func(path string) string, mode parser.Mode) ([]*ast.File, error) {
@@ -104,7 +104,7 @@ func ProcessFiles(bp *build.Package, fset *token.FileSet, DisplayPath func(path 
 
 var cgoRe = regexp.MustCompile(`[/\\:]`)
 
-// Run invokes the cgo preproceservice-yandex-moneyr on bp.CgoFiles and returns two
+// Run invokes the cgo preprocessor on bp.CgoFiles and returns two
 // lists of files: the resulting processed files (in temporary
 // directory tmpdir) and the corresponding names of the unprocessed files.
 //
@@ -113,7 +113,7 @@ var cgoRe = regexp.MustCompile(`[/\\:]`)
 // Objective C, CGOPKGPATH, CGO_FLAGS.
 //
 // If useabs is set to true, absolute paths of the bp.CgoFiles will be passed in
-// to the cgo preproceservice-yandex-moneyr. This in turn will set the // line comments
+// to the cgo preprocessor. This in turn will set the // line comments
 // referring to those files to use absolute paths. This is needed for
 // go/packages using the legacy go list support so it is able to find
 // the original files.

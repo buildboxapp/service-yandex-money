@@ -3,14 +3,13 @@ package api
 import (
 	"context"
 	"github.com/buildboxapp/lib/log"
-	"github.com/buildboxapp/service-yandex-money/pkg/config"
-	"github.com/buildboxapp/service-yandex-money/pkg/model"
-	"github.com/buildboxapp/service-yandex-money/pkg/utils"
+	"github.com/buildboxapp/yookassa/pkg/model"
+	"github.com/buildboxapp/yookassa/pkg/utils"
 )
 
 type api struct {
 	ctx context.Context
-	cfg config.Config
+	cfg model.Config
 	utl utils.Utils
 	logger log.Log
 }
@@ -22,7 +21,7 @@ type Api interface {
 
 func New(
 	ctx context.Context,
-	cfg config.Config,
+	cfg model.Config,
 	utl utils.Utils,
 	logger log.Log,
 ) Api {

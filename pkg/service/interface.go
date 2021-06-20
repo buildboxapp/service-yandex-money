@@ -2,17 +2,16 @@ package service
 
 import (
 	"context"
-	"github.com/buildboxapp/service-yandex-money/pkg/api"
-	"github.com/buildboxapp/service-yandex-money/pkg/config"
-	"github.com/buildboxapp/service-yandex-money/pkg/model"
+	"github.com/buildboxapp/yookassa/pkg/api"
+	"github.com/buildboxapp/yookassa/pkg/model"
 	"github.com/buildboxapp/lib/log"
 	"github.com/buildboxapp/lib/metric"
-	"github.com/buildboxapp/service-yandex-money/pkg/utils"
+	"github.com/buildboxapp/yookassa/pkg/utils"
 )
 
 type service struct {
 	logger log.Log
-	cfg config.Config
+	cfg model.Config
 	metrics metric.ServiceMetric
 	utils utils.Utils
 	api api.Api
@@ -22,12 +21,12 @@ type service struct {
 type Service interface {
 	Ping(ctx context.Context) (result []model.Pong, err error)
 	Pay(ctx context.Context, in model.PayIn) (out model.PayOut, err error)
-	Confirmation(ctx context.Context, in model.AnswerConfirmation) (out model.ConfirmationOut, err error)
+	Confirmation(ctx context.Context, answer model.AnswerConfirmation, in model.ConfirmationIn) (out model.ConfirmationOut, err error)
 }
 
 func New(
 	logger log.Log,
-	cfg config.Config,
+	cfg model.Config,
 	metrics metric.ServiceMetric,
 	utils utils.Utils,
 	api api.Api,

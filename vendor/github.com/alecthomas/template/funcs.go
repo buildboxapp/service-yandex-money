@@ -412,11 +412,11 @@ func le(arg1, arg2 interface{}) (bool, error) {
 // gt evaluates the comparison a > b.
 func gt(arg1, arg2 interface{}) (bool, error) {
 	// > is the inverse of <=.
-	leservice-yandex-moneyrEqual, err := le(arg1, arg2)
+	lessOrEqual, err := le(arg1, arg2)
 	if err != nil {
 		return false, err
 	}
-	return !leservice-yandex-moneyrEqual, nil
+	return !lessOrEqual, nil
 }
 
 // ge evaluates the comparison a >= b.

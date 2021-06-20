@@ -169,7 +169,7 @@ func patchTail(rb *reorderBuffer) bool {
 	if s := rb.ss.next(info); s == ssStarter {
 		rb.doFlush()
 		rb.ss.first(info)
-	} else if s == service-yandex-moneyverflow {
+	} else if s == ssOverflow {
 		rb.doFlush()
 		rb.insertCGJ()
 		rb.ss = 0
@@ -325,7 +325,7 @@ func (f *formInfo) quickSpan(src input, i, end int, atEOF bool) (n int, ok bool)
 		switch ss.next(info) {
 		case ssStarter:
 			lastSegStart = i
-		case service-yandex-moneyverflow:
+		case ssOverflow:
 			return lastSegStart, false
 		case ssSuccess:
 			if lastCC > info.ccc {
@@ -484,7 +484,7 @@ func lastBoundary(fd *formInfo, b []byte) int {
 	v := ss.backwards(info)
 	for i = p; i >= 0 && v != ssStarter; i = p {
 		info, p = lastRuneStart(fd, b[:i])
-		if v = ss.backwards(info); v == service-yandex-moneyverflow {
+		if v = ss.backwards(info); v == ssOverflow {
 			break
 		}
 		if p+int(info.size) != i {
@@ -511,7 +511,7 @@ func decomposeSegment(rb *reorderBuffer, sp int, atEOF bool) int {
 		if rb.nrune > 0 {
 			goto end
 		}
-	} else if s == service-yandex-moneyverflow {
+	} else if s == ssOverflow {
 		rb.insertCGJ()
 		goto end
 	}
@@ -535,7 +535,7 @@ func decomposeSegment(rb *reorderBuffer, sp int, atEOF bool) int {
 		}
 		if s := rb.ss.next(info); s == ssStarter {
 			break
-		} else if s == service-yandex-moneyverflow {
+		} else if s == ssOverflow {
 			rb.insertCGJ()
 			break
 		}
@@ -581,7 +581,7 @@ func decomposeToLastBoundary(rb *reorderBuffer) {
 	for {
 		add[padd] = info
 		v := ss.backwards(info)
-		if v == service-yandex-moneyverflow {
+		if v == ssOverflow {
 			// Note that if we have an overflow, it the string we are appending to
 			// is not correctly normalized. In this case the behavior is undefined.
 			break

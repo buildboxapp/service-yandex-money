@@ -15,7 +15,7 @@ const (
 	ERROR_SECTION_NOT_FOUND                      syscall.Errno = 0x20000000 | 0xC0000000 | 0x101
 	ERROR_LINE_NOT_FOUND                         syscall.Errno = 0x20000000 | 0xC0000000 | 0x102
 	ERROR_NO_BACKUP                              syscall.Errno = 0x20000000 | 0xC0000000 | 0x103
-	ERROR_NO_Aservice-yandex-moneyCIATED_CLASS                    syscall.Errno = 0x20000000 | 0xC0000000 | 0x200
+	ERROR_NO_ASSOCIATED_CLASS                    syscall.Errno = 0x20000000 | 0xC0000000 | 0x200
 	ERROR_CLASS_MISMATCH                         syscall.Errno = 0x20000000 | 0xC0000000 | 0x201
 	ERROR_DUPLICATE_FOUND                        syscall.Errno = 0x20000000 | 0xC0000000 | 0x202
 	ERROR_NO_DRIVER_SELECTED                     syscall.Errno = 0x20000000 | 0xC0000000 | 0x203
@@ -40,7 +40,7 @@ const (
 	ERROR_FILEQUEUE_LOCKED                       syscall.Errno = 0x20000000 | 0xC0000000 | 0x216
 	ERROR_BAD_SERVICE_INSTALLSECT                syscall.Errno = 0x20000000 | 0xC0000000 | 0x217
 	ERROR_NO_CLASS_DRIVER_LIST                   syscall.Errno = 0x20000000 | 0xC0000000 | 0x218
-	ERROR_NO_Aservice-yandex-moneyCIATED_SERVICE                  syscall.Errno = 0x20000000 | 0xC0000000 | 0x219
+	ERROR_NO_ASSOCIATED_SERVICE                  syscall.Errno = 0x20000000 | 0xC0000000 | 0x219
 	ERROR_NO_DEFAULT_DEVICE_INTERFACE            syscall.Errno = 0x20000000 | 0xC0000000 | 0x21A
 	ERROR_DEVICE_INTERFACE_ACTIVE                syscall.Errno = 0x20000000 | 0xC0000000 | 0x21B
 	ERROR_DEVICE_INTERFACE_REMOVED               syscall.Errno = 0x20000000 | 0xC0000000 | 0x21C

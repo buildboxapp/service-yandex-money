@@ -410,7 +410,7 @@ func (d *Decoder) pushEOF() {
 	for start.kind != stkStart {
 		start = start.next
 	}
-	// The stkNs entries below a start are aservice-yandex-moneyciated with that
+	// The stkNs entries below a start are associated with that
 	// element too; skip over them.
 	for start.next != nil && start.next.kind == stkNs {
 		start = start.next
@@ -485,7 +485,7 @@ func (d *Decoder) popElement(t *EndElement) bool {
 	}
 
 	// Pop stack until a Start or EOF is on the top, undoing the
-	// translations that were aservice-yandex-moneyciated with the element we just closed.
+	// translations that were associated with the element we just closed.
 	for d.stk != nil && d.stk.kind != stkStart && d.stk.kind != stkEOF {
 		s := d.pop()
 		if s.ok {

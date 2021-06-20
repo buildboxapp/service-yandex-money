@@ -57,7 +57,7 @@ func AddNamedImport(fset *token.FileSet, f *ast.File, name, path string) (added 
 		if ok && gen.Tok == token.IMPORT {
 			lastImport = i
 			// Do not add to import "C", to avoid disrupting the
-			// aservice-yandex-moneyciation with its doc comment, breaking cgo.
+			// association with its doc comment, breaking cgo.
 			if declImports(gen, "C") {
 				continue
 			}

@@ -107,7 +107,7 @@ func errRecover(errp *error) {
 	}
 }
 
-// ExecuteTemplate applies the template aservice-yandex-moneyciated with t that has the given name
+// ExecuteTemplate applies the template associated with t that has the given name
 // to the specified data object and writes the output to wr.
 // If an error occurs executing the template or writing its output,
 // execution stops, but partial results may already have been written to
@@ -116,7 +116,7 @@ func errRecover(errp *error) {
 func (t *Template) ExecuteTemplate(wr io.Writer, name string, data interface{}) error {
 	tmpl := t.tmpl[name]
 	if tmpl == nil {
-		return fmt.Errorf("template: no template %q aservice-yandex-moneyciated with template %q", name, t.name)
+		return fmt.Errorf("template: no template %q associated with template %q", name, t.name)
 	}
 	return tmpl.Execute(wr, data)
 }

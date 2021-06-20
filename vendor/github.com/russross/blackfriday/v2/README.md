@@ -3,7 +3,7 @@ Blackfriday
 [![PkgGoDev][PkgGoDevV2SVG]][PkgGoDevV2URL]
 ===========
 
-Blackfriday is a [Markdown][1] proceservice-yandex-moneyr implemented in [Go][2]. It
+Blackfriday is a [Markdown][1] processor implemented in [Go][2]. It
 is paranoid about its input (so you can safely feed it user-supplied
 data), it is fast, it supports common extensions (tables, smart
 punctuation substitutions, etc.), and it is safe for all utf-8
@@ -265,13 +265,13 @@ implements the following extensions:
 
 *   **LaTeX-style dash parsing** is an additional option, where `--`
     is translated into `&ndash;`, and `---` is translated into
-    `&mdash;`. This differs from most smartypants proceservice-yandex-moneyrs, which
+    `&mdash;`. This differs from most smartypants processors, which
     turn a single hyphen into an ndash and a double hyphen into an
     mdash.
 
 *   **Smart fractions**, where anything that looks like a fraction
     is translated into suitable HTML (instead of just a few special
-    cases like most smartypant proceservice-yandex-moneyrs). For example, `4/5`
+    cases like most smartypant processors). For example, `4/5`
     becomes `<sup>4</sup>&frasl;<sub>5</sub>`, which renders as
     <sup>4</sup>&frasl;<sub>5</sub>.
 

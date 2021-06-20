@@ -32,7 +32,7 @@ import (
 // field names.
 //
 // Unmarshal maps an XML element to a struct using the following rules.
-// In the rules, the tag of a field refers to the value aservice-yandex-moneyciated with the
+// In the rules, the tag of a field refers to the value associated with the
 // key 'xml' in the struct field's tag (see the example above).
 //
 //   * If the struct has a field of type []byte or string with tag
@@ -42,13 +42,13 @@ import (
 //   * If the struct has a field named XMLName of type xml.Name,
 //      Unmarshal records the element name in that field.
 //
-//   * If the XMLName field has an aservice-yandex-moneyciated tag of the form
+//   * If the XMLName field has an associated tag of the form
 //      "name" or "namespace-URL name", the XML element must have
 //      the given name (and, optionally, name space) or else Unmarshal
 //      returns an error.
 //
 //   * If the XML element has an attribute whose name matches a
-//      struct field name with an aservice-yandex-moneyciated tag containing ",attr" or
+//      struct field name with an associated tag containing ",attr" or
 //      the explicit name in a struct field tag of the form "name,attr",
 //      Unmarshal records the attribute value in that field.
 //

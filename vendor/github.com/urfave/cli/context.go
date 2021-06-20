@@ -182,7 +182,7 @@ func (c *Context) value(name string) interface{} {
 // Args contains apps console arguments
 type Args []string
 
-// Args returns the command line arguments aservice-yandex-moneyciated with the context.
+// Args returns the command line arguments associated with the context.
 func (c *Context) Args() Args {
 	args := Args(c.flagSet.Args())
 	return args

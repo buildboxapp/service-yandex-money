@@ -183,8 +183,8 @@ func (w *Win32PerformanceCounter) GetValue() (float64, error) {
 	return GetCounterValue(w.Counter)
 }
 
-func Proceservice-yandex-moneyrQueueLengthCounter() (*Win32PerformanceCounter, error) {
-	return NewWin32PerformanceCounter("proceservice-yandex-moneyr_queue_length", `\System\Proceservice-yandex-moneyr Queue Length`)
+func ProcessorQueueLengthCounter() (*Win32PerformanceCounter, error) {
+	return NewWin32PerformanceCounter("processor_queue_length", `\System\Processor Queue Length`)
 }
 
 // WMIQueryWithContext - wraps wmi.Query with a timed-out context to avoid hanging

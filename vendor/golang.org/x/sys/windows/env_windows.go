@@ -27,7 +27,7 @@ func Environ() []string {
 	return syscall.Environ()
 }
 
-// Returns a default environment aservice-yandex-moneyciated with the token, rather than the current
+// Returns a default environment associated with the token, rather than the current
 // process. If inheritExisting is true, then this environment also inherits the
 // environment of the current process.
 func (token Token) Environ(inheritExisting bool) (env []string, err error) {

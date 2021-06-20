@@ -233,7 +233,7 @@ func reorderArgs(commandFlags []Flag, args []string) []string {
 			remainingArgs = append(remainingArgs, args[i:]...)
 			break
 
-			// checks if this arg is a value that should be re-ordered next to its aservice-yandex-moneyciated flag
+			// checks if this arg is a value that should be re-ordered next to its associated flag
 		} else if nextIndexMayContainValue && !strings.HasPrefix(arg, "-") {
 			nextIndexMayContainValue = false
 			reorderedArgs = append(reorderedArgs, arg)

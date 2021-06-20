@@ -15,16 +15,16 @@ func (u *utils) AddressProxy() (port string) {
 		// запрашиваем порт у указанного прокси-сервера
 		u.cfg.UrlProxy = u.cfg.AddressProxyPointsrc + "port?interval=" + u.cfg.PortAutoInterval
 		u.Curl("GET", u.cfg.UrlProxy, "", &portDataAPI, map[string]string{})
-		u.cfg.PortApp = fmt.Sprint(portDataAPI.Data)
+		u.cfg.PortService = fmt.Sprint(portDataAPI.Data)
 
-		u.logger.Info("Get: ", u.cfg.UrlProxy, "; Get PortAPP: ", u.cfg.PortApp)
+		u.logger.Info("Get: ", u.cfg.UrlProxy, "; Get PortAPP: ", u.cfg.PortService)
 	}
 
-	if u.cfg.PortApp == "" {
+	if u.cfg.PortService == "" {
 		fmt.Print(fail, " Port APP-service is null. Servive not running.\n")
 		u.logger.Panic(nil, "Port APP-service is null. Servive not running.")
 	}
-	u.logger.Warning("From "+u.cfg.UrlProxy+" get PortAPP:", u.cfg.PortApp, " Domain:", u.cfg.Domain)
+	u.logger.Warning("From "+u.cfg.UrlProxy+" get PortAPP:", u.cfg.PortService, " Domain:", u.cfg.Domain)
 
-	return u.cfg.PortApp
+	return u.cfg.PortService
 }

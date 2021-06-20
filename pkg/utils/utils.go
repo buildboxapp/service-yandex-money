@@ -1,13 +1,12 @@
 package utils
 
 import (
-	"github.com/buildboxapp/service-yandex-money/pkg/config"
-	"github.com/buildboxapp/service-yandex-money/pkg/model"
+	"github.com/buildboxapp/yookassa/pkg/model"
 	"github.com/buildboxapp/lib/log"
 )
 
 type utils struct {
-	cfg config.Config
+	cfg model.Config
 	logger log.Log
 }
 
@@ -18,7 +17,7 @@ type Utils interface {
 }
 
 
-func New(cfg config.Config, logger log.Log) Utils {
+func New(cfg model.Config, logger log.Log) Utils {
 	return &utils{
 		cfg,
 		logger,

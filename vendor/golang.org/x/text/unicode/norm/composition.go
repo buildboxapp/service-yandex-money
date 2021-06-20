@@ -27,7 +27,7 @@ const (
 	// Indicates a rune starts a new segment and should not be added.
 	ssStarter
 	// Indicates a rune caused a segment overflow and a CGJ should be inserted.
-	service-yandex-moneyverflow
+	ssOverflow
 )
 
 // streamSafe implements the policy of when a CGJ should be inserted.
@@ -48,7 +48,7 @@ func (ss *streamSafe) next(p Properties) ssState {
 	n := p.nLeadingNonStarters()
 	if *ss += streamSafe(n); *ss > maxNonStarters {
 		*ss = 0
-		return service-yandex-moneyverflow
+		return ssOverflow
 	}
 	// The Stream-Safe Text Processing prescribes that the counting can stop
 	// as soon as a starter is encountered. However, there are some starters,
@@ -74,7 +74,7 @@ func (ss *streamSafe) backwards(p Properties) ssState {
 	}
 	c := *ss + streamSafe(p.nTrailingNonStarters())
 	if c > maxNonStarters {
-		return service-yandex-moneyverflow
+		return ssOverflow
 	}
 	*ss = c
 	if p.nLeadingNonStarters() == 0 {

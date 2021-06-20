@@ -57,7 +57,7 @@ type Option func(*options)
 // ICU allows the user to define embedding levels. This may be used, for example,
 // to use hierarchical structure of markup languages to define embeddings.
 // The following option may be a way to expose this functionality in this API.
-// // LevelFunc sets a function that aservice-yandex-moneyciates nesting levels with the given text.
+// // LevelFunc sets a function that associates nesting levels with the given text.
 // // The levels function will be called with monotonically increasing values for p.
 // func LevelFunc(levels func(p int) int) Option {
 // 	panic("unimplemented")

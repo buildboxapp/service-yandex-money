@@ -272,7 +272,7 @@ func nextDecomposed(i *Iter) (next []byte) {
 				i.info = i.rb.f.info(i.rb.src, i.p)
 			}
 			switch i.rb.ss.next(i.info) {
-			case service-yandex-moneyverflow:
+			case ssOverflow:
 				i.next = nextCGJDecompose
 				fallthrough
 			case ssStarter:
@@ -316,7 +316,7 @@ func nextDecomposed(i *Iter) (next []byte) {
 		i.info = i.rb.f.info(i.rb.src, i.p)
 		if v := i.rb.ss.next(i.info); v == ssStarter {
 			break
-		} else if v == service-yandex-moneyverflow {
+		} else if v == ssOverflow {
 			i.next = nextCGJDecompose
 			break
 		}
@@ -349,7 +349,7 @@ func doNormDecomposed(i *Iter) []byte {
 		if i.info.ccc == 0 {
 			break
 		}
-		if s := i.rb.ss.next(i.info); s == service-yandex-moneyverflow {
+		if s := i.rb.ss.next(i.info); s == ssOverflow {
 			i.next = nextCGJDecompose
 			break
 		}
@@ -397,7 +397,7 @@ func nextComposed(i *Iter) []byte {
 		i.info = i.rb.f.info(i.rb.src, i.p)
 		if v := i.rb.ss.next(i.info); v == ssStarter {
 			break
-		} else if v == service-yandex-moneyverflow {
+		} else if v == ssOverflow {
 			i.next = nextCGJCompose
 			break
 		}
@@ -434,7 +434,7 @@ func doNormComposed(i *Iter) []byte {
 		i.info = i.rb.f.info(i.rb.src, i.p)
 		if s := i.rb.ss.next(i.info); s == ssStarter {
 			break
-		} else if s == service-yandex-moneyverflow {
+		} else if s == ssOverflow {
 			i.next = nextCGJCompose
 			break
 		}

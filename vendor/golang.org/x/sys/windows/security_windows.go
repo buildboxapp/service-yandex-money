@@ -650,7 +650,7 @@ func (tml *Tokenmandatorylabel) Size() uint32 {
 // system-related operations on the local computer.
 type Token Handle
 
-// OpenCurrentProcessToken opens an access token aservice-yandex-moneyciated with current
+// OpenCurrentProcessToken opens an access token associated with current
 // process with TOKEN_QUERY access. It is a real token that needs to be closed.
 //
 // Deprecated: Explicitly call OpenProcessToken(CurrentProcess(), ...)
@@ -662,14 +662,14 @@ func OpenCurrentProcessToken() (Token, error) {
 	return token, err
 }
 
-// GetCurrentProcessToken returns the access token aservice-yandex-moneyciated with
+// GetCurrentProcessToken returns the access token associated with
 // the current process. It is a pseudo token that does not need
 // to be closed.
 func GetCurrentProcessToken() Token {
 	return Token(^uintptr(4 - 1))
 }
 
-// GetCurrentThreadToken return the access token aservice-yandex-moneyciated with
+// GetCurrentThreadToken return the access token associated with
 // the current thread. It is a pseudo token that does not need
 // to be closed.
 func GetCurrentThreadToken() Token {
@@ -677,7 +677,7 @@ func GetCurrentThreadToken() Token {
 }
 
 // GetCurrentThreadEffectiveToken returns the effective access token
-// aservice-yandex-moneyciated with the current thread. It is a pseudo token that does
+// associated with the current thread. It is a pseudo token that does
 // not need to be closed.
 func GetCurrentThreadEffectiveToken() Token {
 	return Token(^uintptr(6 - 1))
@@ -715,7 +715,7 @@ func (t Token) GetTokenUser() (*Tokenuser, error) {
 	return (*Tokenuser)(i), nil
 }
 
-// GetTokenGroups retrieves group accounts aservice-yandex-moneyciated with access token t.
+// GetTokenGroups retrieves group accounts associated with access token t.
 func (t Token) GetTokenGroups() (*Tokengroups, error) {
 	i, e := t.getInfo(TokenGroups, 50)
 	if e != nil {
@@ -907,6 +907,19 @@ type SECURITY_DESCRIPTOR struct {
 	sacl     *ACL
 	dacl     *ACL
 }
+
+type SECURITY_QUALITY_OF_SERVICE struct {
+	Length              uint32
+	ImpersonationLevel  uint32
+	ContextTrackingMode byte
+	EffectiveOnly       byte
+}
+
+// Constants for the ContextTrackingMode field of SECURITY_QUALITY_OF_SERVICE.
+const (
+	SECURITY_STATIC_TRACKING  = 0
+	SECURITY_DYNAMIC_TRACKING = 1
+)
 
 type SecurityAttributes struct {
 	Length             uint32
@@ -1321,7 +1334,11 @@ func (absoluteSD *SECURITY_DESCRIPTOR) ToSelfRelative() (selfRelativeSD *SECURIT
 }
 
 func (selfRelativeSD *SECURITY_DESCRIPTOR) copySelfRelativeSecurityDescriptor() *SECURITY_DESCRIPTOR {
-	sdLen := (int)(selfRelativeSD.Length())
+	sdLen := int(selfRelativeSD.Length())
+	const min = int(unsafe.Sizeof(SECURITY_DESCRIPTOR{}))
+	if sdLen < min {
+		sdLen = min
+	}
 
 	var src []byte
 	h := (*unsafeheader.Slice)(unsafe.Pointer(&src))
@@ -1329,7 +1346,15 @@ func (selfRelativeSD *SECURITY_DESCRIPTOR) copySelfRelativeSecurityDescriptor() 
 	h.Len = sdLen
 	h.Cap = sdLen
 
-	dst := make([]byte, sdLen)
+	const psize = int(unsafe.Sizeof(uintptr(0)))
+
+	var dst []byte
+	h = (*unsafeheader.Slice)(unsafe.Pointer(&dst))
+	alloc := make([]uintptr, (sdLen+psize-1)/psize)
+	h.Data = (*unsafeheader.Slice)(unsafe.Pointer(&alloc)).Data
+	h.Len = sdLen
+	h.Cap = sdLen
+
 	copy(dst, src)
 	return (*SECURITY_DESCRIPTOR)(unsafe.Pointer(&dst[0]))
 }

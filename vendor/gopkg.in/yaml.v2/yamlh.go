@@ -726,7 +726,7 @@ type yaml_emitter_t struct {
 	opened bool // If the stream was already opened?
 	closed bool // If the stream was already closed?
 
-	// The information aservice-yandex-moneyciated with the document nodes.
+	// The information associated with the document nodes.
 	anchors *struct {
 		references int  // The number of references.
 		anchor     int  // The anchor id.

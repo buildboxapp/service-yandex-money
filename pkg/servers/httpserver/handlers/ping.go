@@ -2,8 +2,7 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
-	"github.com/buildboxapp/service-yandex-money/pkg/model"
+	"github.com/buildboxapp/yookassa/pkg/model"
 	"net/http"
 )
 
@@ -17,20 +16,20 @@ import (
 func (h *handlers) Ping(w http.ResponseWriter, r *http.Request) {
 	_, err := pingDecodeRequest(r.Context(), r)
 	if err != nil {
-		h.logger.Error(err, "[Ping] Error function execution (PLoginDecodeRequest).")
+		h.transportError(w, 500, err, "[Ping] Error service execution (pingDecodeRequest)")
 		return
 	}
 	serviceResult, err := h.service.Ping(r.Context())
 	if err != nil {
-		h.logger.Error(err, "[Ping] Error service execution (service.Ping).")
+		h.transportError(w, 500, err, "[Ping] Error service execution (Ping)")
 		return
 	}
 	response, _ := pingEncodeResponse(r.Context(), serviceResult)
 	if err != nil {
-		h.logger.Error(err, "[Ping] Error function execution (PLoginEncodeResponse).")
+		h.transportError(w, 500, err, "[Ping] Error service execution (pingEncodeResponse)")
 		return
 	}
-	err = pingTransportResponse(w, response)
+	err = h.transportResponse(w, response)
 	if err != nil {
 		h.logger.Error(err, "[Ping] Error function execution (PLoginTransportResponse).")
 		return
@@ -45,11 +44,4 @@ func pingDecodeRequest(ctx context.Context, r *http.Request) (request *[]model.P
 
 func pingEncodeResponse(ctx context.Context, serviceResult []model.Pong) (response []model.Pong, err error)  {
 	return serviceResult, err
-}
-
-func pingTransportResponse(w http.ResponseWriter, response interface{}) (err error)  {
-	d, err := json.Marshal(response)
-
-	w.Write(d)
-	return err
 }

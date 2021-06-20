@@ -584,7 +584,7 @@ func NodeDescription(n ast.Node) string {
 	case *ast.InterfaceType:
 		return "interface type"
 	case *ast.KeyValueExpr:
-		return "key/value aservice-yandex-moneyciation"
+		return "key/value association"
 	case *ast.LabeledStmt:
 		return "statement label"
 	case *ast.MapType:

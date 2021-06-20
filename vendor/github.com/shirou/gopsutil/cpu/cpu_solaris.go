@@ -145,7 +145,7 @@ func InfoWithContext(ctx context.Context) ([]InfoStat, error) {
 		return nil, fmt.Errorf("cannot execute isainfo: %s", err)
 	}
 
-	procs, err := parseProceservice-yandex-moneyrInfo(string(psrInfoOut))
+	procs, err := parseProcessorInfo(string(psrInfoOut))
 	if err != nil {
 		return nil, fmt.Errorf("error parsing psrinfo output: %s", err)
 	}
@@ -184,7 +184,7 @@ func parseISAInfo(cmdOutput string) ([]string, error) {
 	return flags, nil
 }
 
-var psrInfoMatch = regexp.MustCompile(`The physical proceservice-yandex-moneyr has (?:([\d]+) virtual proceservice-yandex-moneyr \(([\d]+)\)|([\d]+) cores and ([\d]+) virtual proceservice-yandex-moneyrs[^\n]+)\n(?:\s+ The core has.+\n)*\s+.+ \((\w+) ([\S]+) family (.+) model (.+) step (.+) clock (.+) MHz\)\n[\s]*(.*)`)
+var psrInfoMatch = regexp.MustCompile(`The physical processor has (?:([\d]+) virtual processor \(([\d]+)\)|([\d]+) cores and ([\d]+) virtual processors[^\n]+)\n(?:\s+ The core has.+\n)*\s+.+ \((\w+) ([\S]+) family (.+) model (.+) step (.+) clock (.+) MHz\)\n[\s]*(.*)`)
 
 const (
 	psrNumCoresOffset   = 1
@@ -198,7 +198,7 @@ const (
 	psrModelNameOffset  = 11
 )
 
-func parseProceservice-yandex-moneyrInfo(cmdOutput string) ([]InfoStat, error) {
+func parseProcessorInfo(cmdOutput string) ([]InfoStat, error) {
 	matches := psrInfoMatch.FindAllStringSubmatch(cmdOutput, -1)
 
 	var infoStatCount int32

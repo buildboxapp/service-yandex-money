@@ -179,7 +179,7 @@ value (argument) or a function or method call, possibly with multiple arguments:
 		arguments:
 			dot.Method(Argument1, etc.)
 	functionName [Argument...]
-		The result is the value of calling the function aservice-yandex-moneyciated
+		The result is the value of calling the function associated
 		with the name:
 			function(Argument1, etc.)
 		Functions and function names are described below.
@@ -344,19 +344,19 @@ not the bit pattern, so all negative integers are less than all
 unsigned integers.) However, as usual, one may not compare an int
 with a float32 and so on.
 
-Aservice-yandex-moneyciated templates
+Associated templates
 
 Each template is named by a string specified when it is created. Also, each
-template is aservice-yandex-moneyciated with zero or more other templates that it may invoke by
-name; such aservice-yandex-moneyciations are transitive and form a name space of templates.
+template is associated with zero or more other templates that it may invoke by
+name; such associations are transitive and form a name space of templates.
 
-A template may use a template invocation to instantiate another aservice-yandex-moneyciated
+A template may use a template invocation to instantiate another associated
 template; see the explanation of the "template" action above. The name must be
-that of a template aservice-yandex-moneyciated with the template that contains the invocation.
+that of a template associated with the template that contains the invocation.
 
 Nested template definitions
 
-When parsing a template, another template may be defined and aservice-yandex-moneyciated with the
+When parsing a template, another template may be defined and associated with the
 template being parsed. Template definitions must appear at the top level of the
 template, much like global variables in a Go program.
 
@@ -377,17 +377,17 @@ produce the text
 
 	ONE TWO
 
-By construction, a template may reside in only one aservice-yandex-moneyciation. If it's
-necessary to have a template addressable from multiple aservice-yandex-moneyciations, the
+By construction, a template may reside in only one association. If it's
+necessary to have a template addressable from multiple associations, the
 template definition must be parsed multiple times to create distinct *Template
 values, or must be copied with the Clone or AddParseTree method.
 
-Parse may be called multiple times to assemble the various aservice-yandex-moneyciated templates;
+Parse may be called multiple times to assemble the various associated templates;
 see the ParseFiles and ParseGlob functions and methods for simple ways to parse
 related templates stored in files.
 
 A template may be executed directly or through ExecuteTemplate, which executes
-an aservice-yandex-moneyciated template identified by name. To invoke our example above, we
+an associated template identified by name. To invoke our example above, we
 might write,
 
 	err := tmpl.Execute(os.Stdout, "no data needed")

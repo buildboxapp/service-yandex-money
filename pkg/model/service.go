@@ -1,14 +1,16 @@
 package model
 
 import (
-	"github.com/buildboxapp/service-yandex-money/pkg/jwt"
 	"time"
 )
 
+// Configuration - текущая конфигурация для каждого запроса исходя из переданного TokenConfig
 type PayIn struct {
 	RedirectPostcreate string `json:"redirect_postcreate"`
 	Product string `json:"product"`
-	Token jwt.Token
+	UserUID string `json:"user_uid"`
+	UserName string `json:"user_name"`
+	Configuration Custom `json:"configuration"`
 }
 
 type PayOut struct {
@@ -18,6 +20,7 @@ type PayOut struct {
 }
 
 type ConfirmationIn struct {
+	Configuration Custom `json:"configuration"`
 }
 
 type ConfirmationOut struct {

@@ -44,8 +44,8 @@ func (t *Template) Name() string {
 	return t.name
 }
 
-// New allocates a new template aservice-yandex-moneyciated with the given one and with the same
-// delimiters. The aservice-yandex-moneyciation, which is transitive, allows one template to
+// New allocates a new template associated with the given one and with the same
+// delimiters. The association, which is transitive, allows one template to
 // invoke another with a {{template}} action.
 func (t *Template) New(name string) *Template {
 	t.init()
@@ -66,9 +66,9 @@ func (t *Template) init() {
 	}
 }
 
-// Clone returns a duplicate of the template, including all aservice-yandex-moneyciated
+// Clone returns a duplicate of the template, including all associated
 // templates. The actual representation is not copied, but the name space of
-// aservice-yandex-moneyciated templates is, so further calls to Parse in the copy will add
+// associated templates is, so further calls to Parse in the copy will add
 // templates to the copy but not to the original. Clone can be used to prepare
 // common templates and use them with variant definitions for other templates
 // by adding the variants after the clone is made.
@@ -80,7 +80,7 @@ func (t *Template) Clone() (*Template, error) {
 		if k == t.name { // Already installed.
 			continue
 		}
-		// The aservice-yandex-moneyciated templates share nt's common structure.
+		// The associated templates share nt's common structure.
 		tmpl := v.copy(nt.common)
 		nt.tmpl[k] = tmpl
 	}
@@ -104,7 +104,7 @@ func (t *Template) copy(c *common) *Template {
 }
 
 // AddParseTree creates a new template with the name and parse tree
-// and aservice-yandex-moneyciates it with t.
+// and associates it with t.
 func (t *Template) AddParseTree(name string, tree *parse.Tree) (*Template, error) {
 	if t.common != nil && t.tmpl[name] != nil {
 		return nil, fmt.Errorf("template: redefinition of template %q", name)
@@ -115,7 +115,7 @@ func (t *Template) AddParseTree(name string, tree *parse.Tree) (*Template, error
 	return nt, nil
 }
 
-// Templates returns a slice of the templates aservice-yandex-moneyciated with t, including t
+// Templates returns a slice of the templates associated with t, including t
 // itself.
 func (t *Template) Templates() []*Template {
 	if t.common == nil {
@@ -151,7 +151,7 @@ func (t *Template) Funcs(funcMap FuncMap) *Template {
 	return t
 }
 
-// Lookup returns the template with the given name that is aservice-yandex-moneyciated with t,
+// Lookup returns the template with the given name that is associated with t,
 // or nil if there is no such template.
 func (t *Template) Lookup(name string) *Template {
 	if t.common == nil {
@@ -161,8 +161,8 @@ func (t *Template) Lookup(name string) *Template {
 }
 
 // Parse parses a string into a template. Nested template definitions will be
-// aservice-yandex-moneyciated with the top-level template t. Parse may be called multiple times
-// to parse definitions of templates to aservice-yandex-moneyciate with t. It is an error if a
+// associated with the top-level template t. Parse may be called multiple times
+// to parse definitions of templates to associate with t. It is an error if a
 // resulting template is non-empty (contains content other than template
 // definitions) and would replace a non-empty template with the same name.
 // (In multiple calls to Parse with the same receiver template, only one call
@@ -176,13 +176,13 @@ func (t *Template) Parse(text string) (*Template, error) {
 	// Add the newly parsed trees, including the one for t, into our common structure.
 	for name, tree := range trees {
 		// If the name we parsed is the name of this template, overwrite this template.
-		// The aservice-yandex-moneyciate method checks it's not a redefinition.
+		// The associate method checks it's not a redefinition.
 		tmpl := t
 		if name != t.name {
 			tmpl = t.New(name)
 		}
 		// Even if t == tmpl, we need to install it in the common.tmpl map.
-		if replace, err := t.aservice-yandex-moneyciate(tmpl, tree); err != nil {
+		if replace, err := t.associate(tmpl, tree); err != nil {
 			return nil, err
 		} else if replace {
 			tmpl.Tree = tree
@@ -193,13 +193,13 @@ func (t *Template) Parse(text string) (*Template, error) {
 	return t, nil
 }
 
-// aservice-yandex-moneyciate installs the new template into the group of templates aservice-yandex-moneyciated
+// associate installs the new template into the group of templates associated
 // with t. It is an error to reuse a name except to overwrite an empty
 // template. The two are already known to share the common structure.
 // The boolean return value reports wither to store this tree as t.Tree.
-func (t *Template) aservice-yandex-moneyciate(new *Template, tree *parse.Tree) (bool, error) {
+func (t *Template) associate(new *Template, tree *parse.Tree) (bool, error) {
 	if new.common != t.common {
-		panic("internal error: aservice-yandex-moneyciate not common")
+		panic("internal error: associate not common")
 	}
 	name := new.name
 	if old := t.tmpl[name]; old != nil {
